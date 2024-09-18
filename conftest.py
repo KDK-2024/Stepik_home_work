@@ -3,20 +3,25 @@ from selenium import webdriver
 
 def pytest_addoption(parser):
     parser.addoption('--languages', action='store', default=None,
-                     help="Choose user_languages: 'ru' or 'en'")
+                     help="Choose user_language: 'ru' or 'en-gb'")
 
 @pytest.fixture(scope="function")
 def browser(request):
-    languages = request.config.getoption("languages")
+    user_language = request.config.getoption("languages")
 
-    if languages == "ru":
-        print("\nstart browser for test in russian languages")
-        browser = webdriver.Chrome()
-    elif languages == "en":
-        print("\nstart browser for test in english languages")
-        browser = webdriver.Chrome()
+    browser = webdriver.Chrome()
+
+    # Открытие базового URL
+    base_url = "http://selenium1py.pythonanywhere.com/"
+
+    # Если язык указан, добавляем его в URL
+    if user_language in ["ru", "en-gb"]:
+        full_url = f"{base_url}{user_language}/catalogue/coders-at-work_207/"
     else:
-        raise pytest.UsageError("--languages should be 'ru' or 'en'")
+        raise pytest.UsageError("--languages should be 'ru' or 'en-gb'")
+
+    browser.get(full_url)
+
     yield browser
-    print("\nquit browser..")
+    print("\nClosing browser..")
     browser.quit()
