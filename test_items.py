@@ -11,3 +11,5 @@ def test_guest_should_see_login_link(browser):
     button = WebDriverWait(browser, 10).until(
         EC.visibility_of_element_located((By.CSS_SELECTOR, ".btn.btn-lg.btn-primary.btn-add-to-basket"))
     )
+
+    assert button is not None, 'Кнопки добавления в корзину нет на странице'
