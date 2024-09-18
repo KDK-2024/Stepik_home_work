@@ -2,23 +2,21 @@ import pytest
 from selenium import webdriver
 
 def pytest_addoption(parser):
-    parser.addoption('--languages', action='store', default=None,
-                     help="Choose user_language: 'ru' or 'en-gb'")
+    parser.addoption('--language', action='store', default='en-gb',
+                    help="Choose user_language, e.g., 'ru', 'en-gb', etc.")
 
 @pytest.fixture(scope="function")
 def browser(request):
-    user_language = request.config.getoption("languages")
+    user_language = request.config.getoption("language")
 
+    # Создаем экземпляр браузера
     browser = webdriver.Chrome()
 
     # Открытие базового URL
     base_url = "http://selenium1py.pythonanywhere.com/"
 
-    # Если язык указан, добавляем его в URL
-    if user_language in ["ru", "en-gb"]:
-        full_url = f"{base_url}{user_language}/catalogue/coders-at-work_207/"
-    else:
-        raise pytest.UsageError("--languages should be 'ru' or 'en-gb'")
+    # Добавляем язык в URL, используя значение, переданное через параметр
+    full_url = f"{base_url}{user_language}/catalogue/coders-at-work_207/"
 
     browser.get(full_url)
 
