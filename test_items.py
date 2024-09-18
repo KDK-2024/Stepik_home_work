@@ -4,7 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 import time
 
 # вызываем фикстуру в тесте, передав ее как параметр
-def test_guest_should_see_login_link(browser):
+def test_find_button(browser):
     time.sleep(15)
 
     # проверяем, что страница товара на сайте содержит кнопку добавления в корзину
